@@ -1,0 +1,67 @@
+<style>
+body {background: #333333;
+    color: #dddddd;
+    font-family: sans-serif;
+ } 
+</style>
+<body>
+    <h1>
+        Acme Car Rental
+    </h1>
+    <label> pickup date:
+    <input type="date" value="" id="pickup-date"> 
+    </label><br>
+    <br>
+    <label> Number of days:
+    <input type="number" name="number-of-days" id="number-of-days">
+    </label>
+    <p>Options</p>
+    <label>
+    <input type="checkbox" id="toll"> Electronic Toll Tag ($3.95/day)
+    </label><br>
+    <label>
+    <input type="checkbox" id="gps"> GPS ($2.95/day)
+    </label><br>
+    <label>
+     <input type="checkbox" id="roadside-assistance"> Roadside Assistance ($2.95/day)
+    </label><br>
+    <p>Under 25</p>
+    <input type="radio" name="choice" value="no"> No 
+    <input type="radio" name="choice" value="yes"> Yes
+    <br>
+    <br>
+    <button id="total_cost">Estimate Total Cost</button>
+    <p id="Cost"></p>
+</body>
+<script>
+window.onload = () => {
+    const total_cost = document.getElementById("total_cost");
+    total_cost.addEventListener("click", () => {
+    const pickupDate = new Date(document.getElementById("pickup-date").value);
+    const numberOfDays = document.getElementById("number-of-days").value;
+    const tollTag = document.getElementById("toll").checked;
+    const gps = document.getElementById("gps").checked;
+    const roadsideAssistance = document.getElementById("roadside-assistance").checked;
+    const under25 = document.querySelector('input[name="choice"]:checked').value === "yes";
+    let basicRentalPrice = 29.99 * numberOfDays;
+    let optionPrice = 0;
+    let under25Surcharge = 0;
+    if (tollTag) {
+        optionPrice += 3.95 * numberOfDays;
+    } 
+    if (gps) {
+        optionPrice += 2.95 * numberOfDays;
+    }
+    if (roadsideAssistance) {
+        optionPrice += 2.95 * numberOfDays;
+    }
+    if (under25) {
+        under25Surcharge = 0.3 * basicRentalPrice;
+    }
+    const totalDue = basicRentalPrice + optionPrice + under25Surcharge;
+    const Cost = document.getElementById("Cost");
+    Cost.innerHTML = `Car rental price: $${basicRentalPrice.toFixed(2)}<br>Options price: $${optionPrice.toFixed(2)}<br>Under 25 surcharge: $${under25Surcharge.toFixed(2)}<br>Total due: $${totalDue.toFixed(2)}`;
+});
+};
+</script>
+</html>
